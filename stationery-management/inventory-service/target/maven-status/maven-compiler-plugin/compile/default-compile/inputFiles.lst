@@ -1,0 +1,15 @@
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\client\AuthServiceClient.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\service\InventoryServiceImpl.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\InventoryServiceApplication.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\service\InventoryService.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\exception\ItemNotFoundException.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\dto\StationeryItemResponse.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\model\StationeryItem.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\repository\StationeryItemRepository.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\security\JwtUtil.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\security\SecurityConfig.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\model\Category.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\controller\InventoryController.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\dto\StationeryItemRequest.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\security\JwtFilter.java
+C:\Users\ARYA VAJPAI\OneDrive\Desktop\stationery-management\stationery-management\inventory-service\src\main\java\com\stationery\inventory\exception\GlobalExceptionHandler.java

@@ -1,0 +1,17 @@
+com\stationery\inventory\dto\StationeryItemResponse$StationeryItemResponseBuilder.class
+com\stationery\inventory\exception\ItemNotFoundException.class
+com\stationery\inventory\InventoryServiceApplication.class
+com\stationery\inventory\dto\StationeryItemResponse.class
+com\stationery\inventory\service\InventoryService.class
+com\stationery\inventory\model\Category.class
+com\stationery\inventory\model\StationeryItem.class
+com\stationery\inventory\model\StationeryItem$StationeryItemBuilder.class
+com\stationery\inventory\exception\GlobalExceptionHandler.class
+com\stationery\inventory\dto\StationeryItemRequest.class
+com\stationery\inventory\security\SecurityConfig.class
+com\stationery\inventory\client\AuthServiceClient.class
+com\stationery\inventory\controller\InventoryController.class
+com\stationery\inventory\repository\StationeryItemRepository.class
+com\stationery\inventory\security\JwtUtil.class
+com\stationery\inventory\security\JwtFilter.class
+com\stationery\inventory\service\InventoryServiceImpl.class

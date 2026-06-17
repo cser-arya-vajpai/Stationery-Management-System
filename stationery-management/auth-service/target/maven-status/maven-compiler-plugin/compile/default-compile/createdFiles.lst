@@ -1,0 +1,17 @@
+com\stationery\auth\dto\AuthResponse$AuthResponseBuilder.class
+com\stationery\auth\exception\UserAlreadyExistsException.class
+com\stationery\auth\model\Role.class
+com\stationery\auth\service\AuthServiceImpl.class
+com\stationery\auth\dto\RegisterRequest.class
+com\stationery\auth\security\JwtUtil.class
+com\stationery\auth\repository\UserRepository.class
+com\stationery\auth\security\JwtFilter.class
+com\stationery\auth\AuthServiceApplication.class
+com\stationery\auth\exception\GlobalExceptionHandler.class
+com\stationery\auth\controller\AuthController.class
+com\stationery\auth\service\AuthService.class
+com\stationery\auth\security\SecurityConfig.class
+com\stationery\auth\dto\AuthResponse.class
+com\stationery\auth\model\User$UserBuilder.class
+com\stationery\auth\dto\LoginRequest.class
+com\stationery\auth\model\User.class
