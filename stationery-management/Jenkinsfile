@@ -1,7 +1,6 @@
 pipeline {
     agent any
 
-
     stages {
         stage('Checkout') {
             steps {
@@ -11,11 +10,13 @@ pipeline {
 
         stage('Compile & Test Backend') {
             steps {
-                script {
-                    if (isUnix()) {
-                        sh 'mvn clean package'
-                    } else {
-                        bat 'mvn clean package'
+                dir('stationery-management') {
+                    script {
+                        if (isUnix()) {
+                            sh 'mvn clean package'
+                        } else {
+                            bat 'mvn clean package'
+                        }
                     }
                 }
             }
@@ -23,7 +24,7 @@ pipeline {
 
         stage('Build Frontend') {
             steps {
-                dir('frontend') {
+                dir('stationery-management/frontend') {
                     script {
                         if (isUnix()) {
                             sh 'npm install'
@@ -39,11 +40,13 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                script {
-                    if (isUnix()) {
-                        sh 'mvn sonar:sonar -Dsonar.projectKey=stationery-management -Dsonar.host.url=http://localhost:9000'
-                    } else {
-                        bat 'mvn sonar:sonar -Dsonar.projectKey=stationery-management -Dsonar.host.url=http://localhost:9000'
+                dir('stationery-management') {
+                    script {
+                        if (isUnix()) {
+                            sh 'mvn sonar:sonar -Dsonar.projectKey=stationery-management -Dsonar.host.url=http://localhost:9000'
+                        } else {
+                            bat 'mvn sonar:sonar -Dsonar.projectKey=stationery-management -Dsonar.host.url=http://localhost:9000'
+                        }
                     }
                 }
             }
@@ -51,11 +54,13 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                script {
-                    if (isUnix()) {
-                        sh 'docker-compose build'
-                    } else {
-                        bat 'docker-compose build'
+                dir('stationery-management') {
+                    script {
+                        if (isUnix()) {
+                            sh 'docker-compose build'
+                        } else {
+                            bat 'docker-compose build'
+                        }
                     }
                 }
             }
@@ -63,13 +68,15 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                script {
-                    if (isUnix()) {
-                        sh 'docker-compose down'
-                        sh 'docker-compose up -d'
-                    } else {
-                        bat 'docker-compose down'
-                        bat 'docker-compose up -d'
+                dir('stationery-management') {
+                    script {
+                        if (isUnix()) {
+                            sh 'docker-compose down'
+                            sh 'docker-compose up -d'
+                        } else {
+                            bat 'docker-compose down'
+                            bat 'docker-compose up -d'
+                        }
                     }
                 }
             }
