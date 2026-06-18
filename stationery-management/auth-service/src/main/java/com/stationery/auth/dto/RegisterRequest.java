@@ -13,7 +13,6 @@ public class RegisterRequest {
     private String name;
 
     @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
     private String email;
 
     @NotBlank(message = "Password is required")
@@ -21,4 +20,6 @@ public class RegisterRequest {
 
     @NotNull(message = "Role is required")
     private Role role;
+
+    private String adminSecretCode; // New field
 }

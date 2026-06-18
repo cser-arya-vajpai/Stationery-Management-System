@@ -1,5 +1,6 @@
 package com.stationery.request.service;
 
+import com.stationery.request.client.InventoryServiceClient;
 import com.stationery.request.dto.RequestResponseDto;
 import com.stationery.request.dto.RequestStatusUpdateDto;
 import com.stationery.request.dto.RequestSubmitDto;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class RequestServiceImpl implements RequestService {
 
     private final StationeryRequestRepository requestRepository;
+    private final InventoryServiceClient inventoryServiceClient; // Inject the Feign client
 
     @Override
     public RequestResponseDto submitRequest(RequestSubmitDto dto, String studentEmail) {
@@ -70,6 +72,11 @@ public class RequestServiceImpl implements RequestService {
         StationeryRequest request = requestRepository.findById(id)
                 .orElseThrow(() -> new RequestNotFoundException(
                         "Request not found with id: " + id));
+
+        // If transitioning to APPROVED, call inventory-service to deduct stock
+        if (dto.getStatus() == RequestStatus.APPROVED && request.getStatus() != RequestStatus.APPROVED) {
+            inventoryServiceClient.deductStock(request.getItemId(), request.getRequestedQuantity());
+        }
 
         request.setStatus(dto.getStatus());
         if (dto.getRejectionReason() != null) {

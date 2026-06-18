@@ -1,0 +1,88 @@
+pipeline {
+    agent any
+
+    environment {
+        // Adjust Maven/Java paths or commands as needed for your Jenkins environment
+        MAVEN_HOME = tool 'Maven'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Compile & Test Backend') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'mvn clean package'
+                    } else {
+                        bat 'mvn clean package'
+                    }
+                }
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                dir('frontend') {
+                    script {
+                        if (isUnix()) {
+                            sh 'npm install'
+                            sh 'npm run build'
+                        } else {
+                            bat 'npm install'
+                            bat 'npm run build'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'mvn sonar:sonar -Dsonar.projectKey=stationery-management -Dsonar.host.url=http://localhost:9000'
+                    } else {
+                        bat 'mvn sonar:sonar -Dsonar.projectKey=stationery-management -Dsonar.host.url=http://localhost:9000'
+                    }
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'docker-compose build'
+                    } else {
+                        bat 'docker-compose build'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'docker-compose down'
+                        sh 'docker-compose up -d'
+                    } else {
+                        bat 'docker-compose down'
+                        bat 'docker-compose up -d'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

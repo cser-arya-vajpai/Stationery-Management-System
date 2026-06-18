@@ -77,6 +77,19 @@ public class InventoryServiceImpl implements InventoryService {
         itemRepository.deleteById(id);
     }
 
+        @Override
+    public void deductStock(Long id, int quantity) {
+        StationeryItem item = itemRepository.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException("Item not found with id: " + id));
+
+        if (item.getAvailableQuantity() < quantity) {
+            throw new IllegalArgumentException("Insufficient stock for item: " + item.getName());
+        }
+
+        item.setAvailableQuantity(item.getAvailableQuantity() - quantity);
+        itemRepository.save(item);
+    }
+
     private StationeryItemResponse mapToResponse(StationeryItem item) {
         return StationeryItemResponse.builder()
                 .id(item.getId())

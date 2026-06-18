@@ -1,5 +1,6 @@
 package com.stationery.request.service;
 
+import com.stationery.request.client.InventoryServiceClient; // New Import
 import com.stationery.request.dto.RequestResponseDto;
 import com.stationery.request.dto.RequestSubmitDto;
 import com.stationery.request.exception.RequestNotFoundException;
@@ -24,6 +25,9 @@ class RequestServiceTest {
 
     @Mock
     private StationeryRequestRepository requestRepository;
+
+    @Mock
+    private InventoryServiceClient inventoryServiceClient; // Added Mock
 
     @InjectMocks
     private RequestServiceImpl requestService;

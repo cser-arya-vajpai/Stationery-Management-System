@@ -4,6 +4,7 @@ import com.stationery.auth.dto.AuthResponse;
 import com.stationery.auth.dto.LoginRequest;
 import com.stationery.auth.dto.RegisterRequest;
 import com.stationery.auth.exception.UserAlreadyExistsException;
+import com.stationery.auth.model.Role;
 import com.stationery.auth.model.User;
 import com.stationery.auth.repository.UserRepository;
 import com.stationery.auth.security.JwtUtil;
@@ -20,11 +21,22 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
+    // Pre-defined secret key for Admin registrations
+    private static final String ADMIN_SECRET_KEY = "STATIONERY_ADMIN_2026";
+
     @Override
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new UserAlreadyExistsException(
                 "User already exists with email: " + request.getEmail());
+        }
+
+        // Validate secret code if registering as an ADMIN
+        if (request.getRole() == Role.ADMIN) {
+            if (request.getAdminSecretCode() == null || 
+                !request.getAdminSecretCode().equals(ADMIN_SECRET_KEY)) {
+                throw new IllegalArgumentException("Invalid Admin Secret Code");
+            }
         }
 
         User user = User.builder()

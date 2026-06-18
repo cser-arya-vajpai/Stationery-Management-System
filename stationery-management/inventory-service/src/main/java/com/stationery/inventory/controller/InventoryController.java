@@ -70,4 +70,12 @@ public class InventoryController {
     public ResponseEntity<String> health() {
         return ResponseEntity.ok("Inventory Service is running");
     }
+
+    @PutMapping("/{id}/deduct")
+    public ResponseEntity<Void> deductStock(
+            @PathVariable Long id,
+            @RequestParam int quantity) {
+        inventoryService.deductStock(id, quantity);
+        return ResponseEntity.ok().build();
+    }
 }

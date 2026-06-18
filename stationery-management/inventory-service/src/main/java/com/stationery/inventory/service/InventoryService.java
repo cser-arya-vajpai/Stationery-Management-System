@@ -14,4 +14,5 @@ public interface InventoryService {
     Page<StationeryItemResponse> getAllItems(Pageable pageable);
     List<StationeryItemResponse> getLowStockItems();
     void deleteItem(Long id);
+    void deductStock(Long id, int quantity); // Add this method
 }

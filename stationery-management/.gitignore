@@ -1,0 +1,28 @@
+# Maven build outputs
+target/
+**/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Node / React dependency & build folders
+node_modules/
+**/node_modules/
+build/
+**/build/
+dist/
+**/dist/
+.pnp
+.pnp.js
+
+# IDEs & System files
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini
