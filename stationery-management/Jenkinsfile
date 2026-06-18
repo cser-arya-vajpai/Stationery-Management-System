@@ -41,11 +41,13 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 dir('stationery-management') {
-                    script {
-                        if (isUnix()) {
-                            sh 'mvn sonar:sonar -Dsonar.projectKey=stationery-management -Dsonar.host.url=http://localhost:9000'
-                        } else {
-                            bat 'mvn sonar:sonar -Dsonar.projectKey=stationery-management -Dsonar.host.url=http://localhost:9000'
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        script {
+                            if (isUnix()) {
+                                sh 'mvn sonar:sonar -Dsonar.projectKey=stationery-management -Dsonar.host.url=http://localhost:9000'
+                            } else {
+                                bat 'mvn sonar:sonar -Dsonar.projectKey=stationery-management -Dsonar.host.url=http://localhost:9000'
+                            }
                         }
                     }
                 }
