@@ -1,4 +1,6 @@
-#### D. [audit-logging.md](file:///C:/Users/ARYA%20VAJPAI/OneDrive/Desktop/stationery-management/stationery-management/docs/audit-logging.md)
+---
+
+Open [audit-logging.md](file:///C:/Users/ARYA%20VAJPAI/OneDrive/Desktop/stationery-management/stationery-management/docs/audit-logging.md), replace all its contents with this clean format version:
 
 ```markdown
 # Audit Logging and Traceability

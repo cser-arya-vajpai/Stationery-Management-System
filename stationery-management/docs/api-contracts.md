@@ -1,4 +1,6 @@
-#### B. [api-contracts.md](file:///C:/Users/ARYA%20VAJPAI/OneDrive/Desktop/stationery-management/stationery-management/docs/api-contracts.md)
+---
+
+Open [api-contracts.md](file:///C:/Users/ARYA%20VAJPAI/OneDrive/Desktop/stationery-management/stationery-management/docs/api-contracts.md), replace all its contents with this complete API contract specification:
 
 ````markdown
 # API Contracts
