@@ -18,7 +18,7 @@ public class JwtUtil {
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());   //converts the raw bytes of your secret key string into a cryptographic key object
-
+    }
     //extracting email from JWT payload using Claims(helper class to do the same)
     public String extractEmail(String token) {
         return getClaims(token).getSubject();
