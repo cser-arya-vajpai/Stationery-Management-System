@@ -19,7 +19,6 @@ const Inventory = () => {
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [remarks, setRemarks] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
 
@@ -48,7 +47,6 @@ const Inventory = () => {
   const openRequestModal = (item) => {
     setSelectedItem(item);
     setQuantity(1);
-    setRemarks('');
     setSuccessMsg('');
   };
 
