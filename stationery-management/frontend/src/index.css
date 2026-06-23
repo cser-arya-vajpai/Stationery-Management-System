@@ -2,21 +2,21 @@
 
 /* ===== GLOBAL VARIABLES & RESET ===== */
 :root {
-  --bg-gradient: linear-gradient(135deg, #070a13 0%, #0c111d 100%);
-  --panel-bg: rgba(21, 29, 47, 0.7);
-  --panel-border: rgba(255, 255, 255, 0.07);
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --primary-glow: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-  --accent-teal: #0ea5e9;
-  --danger: #ef4444;
-  --danger-bg: rgba(239, 68, 68, 0.12);
+  --bg-gradient: linear-gradient(135deg, #fff0f3 0%, #ffe3e8 100%);
+  --panel-bg: rgba(255, 255, 255, 0.85);
+  --panel-border: rgba(219, 39, 119, 0.15);
+  --text-primary: #4a2830;
+  --text-secondary: #8c606b;
+  --primary-glow: linear-gradient(135deg, #ff6b8b 0%, #db2777 100%);
+  --accent-teal: #f472b6;
+  --danger: #e11d48;
+  --danger-bg: rgba(225, 29, 72, 0.08);
   --success: #10b981;
-  --success-bg: rgba(16, 185, 129, 0.12);
-  --warning: #f59e0b;
-  --warning-bg: rgba(245, 158, 11, 0.12);
-  --info: #06b6d4;
-  --info-bg: rgba(6, 182, 212, 0.12);
+  --success-bg: rgba(16, 185, 129, 0.08);
+  --warning: #ea580c;
+  --warning-bg: rgba(234, 88, 12, 0.08);
+  --info: #2563eb;
+  --info-bg: rgba(37, 99, 235, 0.08);
 }
 
 * {
@@ -741,4 +741,232 @@ body {
   font-size: 14px;
   font-weight: 600;
   color: var(--text-secondary);
+}
+
+/* ===== STATIONERY SYSTEM LEFT SIDEBAR LAYOUT OVERRIDES ===== */
+body {
+  background: #fff0f3 !important;
+}
+
+/* Sidebar Navigation */
+.navbar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 260px;
+  height: 100vh;
+  background: linear-gradient(180deg, #ff7597 0%, #db2777 100%) !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 40px 20px;
+  border-right: none;
+  box-shadow: 4px 0 25px rgba(219, 39, 119, 0.1);
+  z-index: 1000;
+}
+
+.navbar-brand {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #ffffff !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  margin-bottom: 35px;
+  text-align: center;
+  display: block;
+}
+
+.navbar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.navbar-links a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+.navbar-links a:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-links a.active {
+  color: #db2777 !important;
+  background: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(219, 39, 119, 0.15);
+}
+
+.navbar-links a::after {
+  display: none !important; /* remove horizontal line */
+}
+
+/* User info & logout card at the bottom of the sidebar */
+.navbar-user {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  padding-top: 20px;
+  margin-top: auto;
+  gap: 12px;
+}
+
+.navbar-user span {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  text-align: center;
+  word-break: break-all;
+}
+
+.btn-logout {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  background: #ffffff !important;
+  color: #db2777 !important;
+}
+
+/* Shift page contents to the right of the sidebar */
+.page-container {
+  margin-left: 260px;
+  max-width: calc(100% - 260px);
+  padding: 45px 50px;
+  min-height: 100vh;
+  background: #fff0f3 !important;
+}
+
+/* PinkStation themed widgets */
+.stat-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(255, 105, 180, 0.12) !important;
+  border-radius: 20px;
+  padding: 24px 30px;
+  box-shadow: 0 4px 20px rgba(219, 39, 119, 0.04) !important;
+  transition: all 0.3s;
+}
+
+.stat-card::before {
+  display: none !important; /* remove original vertical line */
+}
+
+.stat-number {
+  font-size: 38px;
+  font-weight: 800;
+  color: #db2777 !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  margin-top: 5px;
+}
+
+.welcome-banner {
+  background: linear-gradient(135deg, #ffeef2 0%, #ffd1dc 100%) !important;
+  border: 1px solid rgba(255, 105, 180, 0.18) !important;
+  box-shadow: 0 6px 22px rgba(255, 105, 180, 0.06) !important;
+  border-radius: 24px;
+}
+
+.welcome-banner h1 {
+  color: #c2185b !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+}
+
+.welcome-banner p {
+  color: #880e4f !important;
+}
+
+.dashboard-panel {
+  background: #ffffff !important;
+  border: 1px solid rgba(255, 105, 180, 0.12) !important;
+  box-shadow: 0 6px 24px rgba(255, 105, 180, 0.04) !important;
+  border-radius: 24px;
+}
+
+.panel-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 20px !important;
+  border-bottom: 1px solid rgba(255, 105, 180, 0.12) !important;
+  padding-bottom: 12px !important;
+}
+
+.panel-header h3 {
+  color: #880e4f !important;
+  margin: 0 !important;
+}
+
+/* Wavy footer decorative banner */
+.wavy-footer {
+  text-align: center;
+  padding: 25px;
+  color: #7c4c58;
+  font-size: 13px;
+  font-weight: 600;
+  background: #ffffff;
+  border-top: 1px solid rgba(255, 105, 180, 0.12);
+  margin-top: 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(255, 105, 180, 0.02);
+}
+
+/* Fix input & textarea text/background colors in light mode modals */
+input, select, textarea {
+  background: #ffffff !important;
+  border: 1px solid rgba(219, 39, 119, 0.2) !important;
+  color: #4a2830 !important;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+input:focus, select:focus, textarea:focus {
+  background: #ffffff !important;
+  color: #4a2830 !important;
+  border-color: #db2777 !important;
+  outline: none;
+}
+
+/* Fix modal action buttons readability */
+.modal-actions .btn-secondary {
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.modal-actions .btn-secondary:hover {
+  background: #e5e7eb !important;
+  color: #1f2937 !important;
+}
+
+.modal-content h2 {
+  color: #4a2830 !important;
+  border-bottom: 1px solid rgba(219, 39, 119, 0.12) !important;
 }

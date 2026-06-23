@@ -48,7 +48,7 @@ public class StationeryRequest {
 
     private LocalDateTime updatedAt;
 
-    @PrePersist
+    @PrePersist    //runs just before the object is fist inserted into the database.
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
@@ -56,7 +56,7 @@ public class StationeryRequest {
         requestId = "REQ-" + System.currentTimeMillis();
     }
 
-    @PreUpdate
+    @PreUpdate  //runs before an existing record is updated in the db.
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }

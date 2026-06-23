@@ -14,25 +14,26 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/requests")
-@RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@RestController  //tells spring boot that this class is a controller
+@RequestMapping("/api/requests")   //defines base URL path for all endpoints in this class. 
+@RequiredArgsConstructor //Automatically injects RequestService interface via constructor injection
+@CrossOrigin(origins = "*")  //Enables CORS. Allows react frontend to safely communicate with this microservice without browser blocking the request.
 public class RequestController {
 
-    private final RequestService requestService;
+    private final RequestService requestService;   //request service is injected 
 
-    @PostMapping
+    @PostMapping   //Spring annotation that handles HTTP POST REQUESTS
+    //@RequestBody instructs spring to read JSON payload from the incoming HTTP request and deserialize it into our RequestSubmitDto
     public ResponseEntity<RequestResponseDto> submitRequest(
             @Valid @RequestBody RequestSubmitDto dto,
-            Authentication authentication) {
+            Authentication authentication) {  //extracts securely verified student email from the JWT bearer token
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(requestService.submitRequest(dto, authentication.getName()));
     }
 
-    @GetMapping("/my")
+    @GetMapping("/my")  //appends /my to the base path
     public ResponseEntity<List<RequestResponseDto>> getMyRequests(
-            Authentication authentication,
+            Authentication authentication,  //email extraction from JWT
             @RequestParam(required = false) RequestStatus status) {
         if (status != null) {
             return ResponseEntity.ok(

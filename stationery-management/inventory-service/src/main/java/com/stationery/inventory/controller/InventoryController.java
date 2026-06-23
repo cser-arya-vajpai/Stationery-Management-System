@@ -15,16 +15,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-@RestController
-@RequestMapping("/api/inventory")
+//front facing api layer of our microservice
+@RestController   //this class is an api controller 
+@RequestMapping("/api/inventory")   //any request like this will be directed here
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*")    //disable CORS because we dont use cookies, so we dont need it 
 public class InventoryController {
 
     private final InventoryService inventoryService;
 
-    @PostMapping
+    @PostMapping      //maps post requests to /api/inventory
+    //@Valid tells spring's validation engine to execute validation constraints like @NotBlank etc inside StationeryItemRequest
+    //@RequestBody: Tells Spring to read the JSON payload from the HTTP request body and parse it into this Java request object.
     public ResponseEntity<StationeryItemResponse> addItem(
             @Valid @RequestBody StationeryItemRequest request,
             Authentication authentication) {
@@ -32,16 +34,16 @@ public class InventoryController {
                 .body(inventoryService.addItem(request, authentication.getName()));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}")   //maps put requests 
     public ResponseEntity<StationeryItemResponse> updateItem(
-            @PathVariable Long id,
+            @PathVariable Long id,    //extracts value of id from URL path
             @Valid @RequestBody StationeryItemRequest request,
             Authentication authentication) {
         return ResponseEntity.ok(
                 inventoryService.updateItem(id, request, authentication.getName()));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}")    //maps get requests 
     public ResponseEntity<StationeryItemResponse> getItemById(@PathVariable Long id) {
         return ResponseEntity.ok(inventoryService.getItemById(id));
     }
@@ -53,24 +55,26 @@ public class InventoryController {
             @RequestParam(defaultValue = "name") String sortBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return ResponseEntity.ok(inventoryService.getAllItems(pageable));
-    }
+    }  //Fetches a paginated catalog list of items.
+
 
     @GetMapping("/low-stock")
     public ResponseEntity<List<StationeryItemResponse>> getLowStockItems() {
         return ResponseEntity.ok(inventoryService.getLowStockItems());
-    }
+    }  //Fetches items below their minimum threshold limit.
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
         inventoryService.deleteItem(id);
         return ResponseEntity.noContent().build();
-    }
+    } //removes an item from the catalog
 
     @GetMapping("/health")
     public ResponseEntity<String> health() {
         return ResponseEntity.ok("Inventory Service is running");
     }
 
+    //called by request-service when the student order gets approved
     @PutMapping("/{id}/deduct")
     public ResponseEntity<Void> deductStock(
             @PathVariable Long id,

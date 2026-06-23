@@ -3,8 +3,11 @@ import Navbar from '../components/Navbar';
 import ItemCard from '../components/ItemCard';
 import { getAllItems } from '../api/inventoryApi';
 import { submitRequest } from '../api/requestApi';
+import { useAuth } from '../context/AuthContext';
+import { addAuditLog } from '../utils/auditLogger';
 
 const Inventory = () => {
+  const { user } = useAuth();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -62,6 +65,9 @@ const Inventory = () => {
         requestedQuantity: Number(quantity),
         remarks,
       });
+
+      addAuditLog(user.email, user.role, 'SUBMIT_REQUEST', `Requested ${quantity} ${selectedItem.unit}(s) of ${selectedItem.name}`);
+
       setSuccessMsg('Request submitted successfully!');
       setTimeout(() => {
         closeModal();

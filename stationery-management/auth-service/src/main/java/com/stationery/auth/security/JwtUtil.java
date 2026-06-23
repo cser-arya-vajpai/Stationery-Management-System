@@ -11,10 +11,10 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.secret}")  //it tells spring boot to read secret value from configuration settings and inject into our variable.
     private String secret;
 
-    @Value("${jwt.expiration}")
+    @Value("${jwt.expiration}") //it tells spring boot to read expiration value from configuration settings and inject into our variable.
     private long expiration;
 
     private Key getSigningKey() {
@@ -28,7 +28,7 @@ public class JwtUtil {
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                .compact();
+                .compact();   //combines all three parts, header, payload and signature, into a dot separated string 
     }
 
     public String extractEmail(String token) {

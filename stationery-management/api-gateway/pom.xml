@@ -18,7 +18,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
+            <groupId>org.springframework.cloud</groupId> <!--Turns a normal Spring boot application into an API gateway. It sets up Request Routing System. -->
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
         <dependency>

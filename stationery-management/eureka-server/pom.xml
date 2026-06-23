@@ -17,8 +17,8 @@
     <description>Service Registry - Eureka Server</description>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
+        <dependency>  <!--This dependency is Heart of the eureka server-->
+            <groupId>org.springframework.cloud</groupId>   <!--It enables @EnableEurekaServe. It enables that when services start they register themselves with eureka-->
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
         <dependency>
@@ -30,7 +30,7 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
+                <groupId>org.springframework.boot</groupId>  <!--adds monitoring endpoints. /actuator/health and /actuator/info-->
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>

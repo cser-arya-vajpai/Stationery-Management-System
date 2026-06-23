@@ -5,30 +5,32 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!--This tells that we have a parent POM. Instead of writing common dependencies and versions in every module, you put them in the parent. -->
     <parent>
-        <groupId>com.stationery</groupId>
+        <groupId>com.stationery</groupId>   <!--organization/package name-->
         <artifactId>stationery-management</artifactId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>config-server</artifactId>
+    <artifactId>config-server</artifactId>   
     <name>config-server</name>
     <description>Centralized Configuration Server</description>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
+            <groupId>org.springframework.cloud</groupId>   <!--@EnableConfigServer : allows app to serve configuration files to another services-->
             <artifactId>spring-cloud-config-server</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
+            <groupId>org.springframework.boot</groupId>   <!--in application.yml, we have created endpoint /actuator, that uses this library-->
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
     </dependencies>
 
+    <!-- Contains instructions for building the project. -->
     <build>
-        <plugins>
+        <plugins>   <!--Extend maven capabilities. This plugin helps maven to RUN APPLICATION  y creating executable JAR files-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

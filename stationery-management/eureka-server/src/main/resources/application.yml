@@ -9,12 +9,12 @@ eureka:
   instance:
     hostname: localhost
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: false #should not register itself
+    fetch-registry: false #Do not download registry from another Eureka Server.
     service-url:
       defaultZone: http://localhost:8761/eureka/
   server:
-    wait-time-in-ms-when-sync-empty: 0
+    wait-time-in-ms-when-sync-empty: 0 #How long Eureka should wait before it starts working fully.
 
 management:
   endpoints:

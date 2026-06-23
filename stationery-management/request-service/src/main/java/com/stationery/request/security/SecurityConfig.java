@@ -10,9 +10,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration
-@EnableWebSecurity
-@RequiredArgsConstructor
+@Configuration  //this is a configuration Class 
+@EnableWebSecurity   //Enable spring security web support 
+@RequiredArgsConstructor //injects jwtFilter constructor here
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/requests/*/status").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);  //registers our custom jwtFilter to execute before Spring Security's default UsernamePasswordAuthenticationFilter. Ensures authentication is setup before the security rules checks are run
 
         return http.build();
     }

@@ -13,20 +13,22 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
+//request interceptor or the SECURITY GUARD
 
-@Component
-@RequiredArgsConstructor
-public class JwtFilter extends OncePerRequestFilter {
+@Component   //marked as spring bean to b injected elsewhere
+@RequiredArgsConstructor  //constructor of jwtUtil can be injected here
+public class JwtFilter extends OncePerRequestFilter {  //spring class that guarantees that filter executes exactly once per HTTP request
 
     private final JwtUtil jwtUtil;
 
+    //Servlet Filter = security guard standing at entrance of web server
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request,  //it is a servlet container that contains all the details of incoming HTTP requests.
+                                    HttpServletResponse response,  //represents outgoing HTTP response 
+                                    FilterChain filterChain)   //represents chain of other filters that must pass through before it can reach the controller
             throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorization");
+        String authHeader = request.getHeader("Authorization");  //we extract HTTP header named "Authorization"
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);

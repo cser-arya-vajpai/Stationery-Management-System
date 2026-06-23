@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+@Repository    //this is a data access bean
 public interface StationeryItemRepository extends JpaRepository<StationeryItem, Long> {
     Page<StationeryItem> findAll(Pageable pageable);
     List<StationeryItem> findByCategory(Category category);

@@ -1,25 +1,29 @@
+#instead of clients calling auth/inventory/request, they only call api-gateway which is at this port and
+#which forwards th request to correct service
 server:
-  port: 8085
+  port: 8085 #runs on this port
 
+#main spring boot configuration block. Everything related to spring goes inside here:
 spring:
   application:
-    name: api-gateway
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
+    name: api-gateway #name by which eureka identifies this service. Eureka stores API-GATEWAY
+  cloud: #heart of api gateway. contains spring cloud configurations. Spring cloud provides eureka, gateway, configserver, load balancing etc.
+    gateway: #configurations related to spring cloud gateway
+      discovery: #allows to find services automatically instead of hardcoding service locations
+        locator: #Locator helps Gateway locate services registered in Eureka.
+          enabled: true #it turns this feature on. gateway should now automatically discover services from eureka
+          lower-case-service-id: true #in url auth-service is used instead of AUTH-SERVICE because it is easy
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true
+#Eureka Section
+eureka: #configuration for communication with eureka server
+  client: #means this application is a Eureka client
+    service-url: #contains eureka server address
+      defaultZone: http://localhost:8761/eureka/ #this is default eureka server
+  instance: #we prefer ip address rather than dns.
+    prefer-ip-address: true #Register using IP address instead of hostname.
 
-management:
-  endpoints:
-    web:
-      exposure:
+management: #used for monitoring and actuator endpoints
+  endpoints: #Actuator endpoints configuration.
+    web: #These endpoints can be accessed through HTTP.
+      exposure: #Controls which actuator endpoints are visible.
         include: health, info, gateway

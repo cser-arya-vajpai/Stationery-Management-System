@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+//whenever a student submits a new statinery request, this DTO is used.
 @Data
 public class RequestSubmitDto {
 

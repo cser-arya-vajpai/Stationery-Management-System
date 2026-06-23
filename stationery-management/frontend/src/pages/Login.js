@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { loginUser } from '../api/authApi';
 import { useAuth } from '../context/AuthContext';
+import { addAuditLog } from '../utils/auditLogger';
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({ email: '', password: '' });   //stores email, passwords
+  const [error, setError] = useState('');      //stores error messages
+  const [loading, setLoading] = useState(false);  //TRACKS IF LOGIN REQUEST IS RUNNING
 
-  const navigate = useNavigate();
-  const { login } = useAuth();
+  const navigate = useNavigate();  //allows page redirection
+  const { login } = useAuth();     //gets login fn from AuthProvider
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,7 +25,10 @@ const Login = () => {
       const response = await loginUser(formData);
       login(response.data);
 
-      if (response.data.role === 'ADMIN') {
+      const user = response.data;
+      addAuditLog(user.email, user.role, 'LOGIN', 'Logged in successfully');
+
+      if (user.role === 'ADMIN') {
         navigate('/admin/dashboard');
       } else {
         navigate('/catalog');

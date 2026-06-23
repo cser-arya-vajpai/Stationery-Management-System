@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+@RestControllerAdvice   //spring annotation that registers this class as a global interceptor. Listens to all controllers and catches any exceptions they throw
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RequestNotFoundException.class)

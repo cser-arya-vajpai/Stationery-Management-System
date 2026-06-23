@@ -7,6 +7,12 @@ import com.stationery.request.model.RequestStatus;
 
 import java.util.List;
 
+
+//service package has been split into two packages, interface and its implementation
+//this is because in spring boot, it is best practice to define a service in two files.
+
+//this interface will declare what action are available, like a contract.
+//it outlines all operations that request microservice can perform 
 public interface RequestService {
     RequestResponseDto submitRequest(RequestSubmitDto dto, String studentEmail);
     List<RequestResponseDto> getMyRequests(String studentEmail);

@@ -8,8 +8,11 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+//This DTO is what the microservice returns back to the frontend after any operation. 
+//It includes all the request details, timestamps, and database IDs.
+
 @Data
-@Builder
+@Builder   //allows the service layer to easily map a db  entity to this response DTO in one line.
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestResponseDto {

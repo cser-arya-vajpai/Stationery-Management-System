@@ -6,9 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "users")
-@Data
+@Entity    //tells Spring Data JPA(our DB library) that this class represents a db table. JPA will automatically generate the table if it does not exist and map rows from db to java objects of this class.
+@Table(name = "users") //tells JPA to explicitely name table as "users" 
+@Data  //to generate all getters, setters, toString() and equals() automatically, for every field.
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import { getAllItems, addItem, updateItem, deleteItem } from '../api/inventoryApi';
+import { useAuth } from '../context/AuthContext';
+import { addAuditLog } from '../utils/auditLogger';
 
 const CATEGORIES = ['PAPER', 'PEN', 'PENCIL', 'NOTEBOOK', 'ERASER', 'SHARPENER', 'STAPLER', 'OTHER'];
 
@@ -13,6 +15,7 @@ const emptyForm = {
 };
 
 const AdminInventory = () => {
+  const { user } = useAuth();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -92,9 +95,11 @@ const AdminInventory = () => {
     try {
       if (editingId) {
         await updateItem(editingId, payload);
+        addAuditLog(user.email, user.role, 'UPDATE_ITEM', `Updated details for item: ${payload.name} (Qty: ${payload.availableQuantity}, Min Threshold: ${payload.minimumQuantity})`);
         setSuccess('Item updated successfully.');
       } else {
         await addItem(payload);
+        addAuditLog(user.email, user.role, 'ADD_ITEM', `Added new item: ${payload.name} (Initial Qty: ${payload.availableQuantity})`);
         setSuccess('Item added successfully.');
       }
       closeForm();
@@ -111,9 +116,12 @@ const AdminInventory = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this item?')) return;
+    const targetItem = items.find(item => item.id === id);
+    const itemName = targetItem ? targetItem.name : `ID ${id}`;
+    if (!window.confirm(`Are you sure you want to delete ${itemName}?`)) return;
     try {
       await deleteItem(id);
+      addAuditLog(user.email, user.role, 'DELETE_ITEM', `Deleted inventory item: ${itemName}`);
       fetchItems();
     } catch (err) {
       setError('Failed to delete item.');
@@ -174,7 +182,7 @@ const AdminInventory = () => {
                     <td>{item.availableQuantity}</td>
                     <td>{item.minimumQuantity}</td>
                     <td>
-                      {item.lowStock ? (
+                      {item.availableQuantity <= item.minimumQuantity ? (
                         <span className="badge-warning">Low Stock</span>
                       ) : (
                         <span className="badge badge-approved">OK</span>
@@ -203,7 +211,7 @@ const AdminInventory = () => {
                 <button 
                   className="btn-secondary btn-pagination" 
                   disabled={currentPage >= totalPages - 1} 
-                  onClick={() => setCurrentPage(prev => prev + 1)}
+                  onClick={() => setCurrentPage(prev => prev - 1)}
                 >
                   Next
                 </button>

@@ -1,37 +1,41 @@
+#it is a spring application
+#spring.application.name.auth-service
 server:
-  port: 8081
+  port: 8081 #runs on this port number
 
-spring:
+spring: #root-block for all spring configurations
   application:
-    name: auth-service
+    name: auth-service #whenever this service registers with eureka, this name will appear, in all capital. Another service will directly see its name. Also needed for logs
   config:
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://localhost:8888 #tells application that config server is working on port 8888, go fetch your configurations from here. Optional because if by chance config server is unavailable, application.yml won't crash.
+  #Fallback part, will only execute if config-server does not work
+  #defining database connection:
   datasource:
-    url: jdbc:mysql://localhost:3306/auth_db
+    url: jdbc:mysql://localhost:3306/auth_db #jdbc connection protocol. set of rules that connects with jdbc. localhost->same machine. auth_db->db name
     username: root
     password: ashuvishu
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+    driver-class-name: com.mysql.cj.jdbc.Driver #connects spring boot with mysql
+  jpa: #java persistence api, set of rules that define how to convert code to queries
+    hibernate: #implements rules defined in jpa
+      ddl-auto: update #(data definition language)db schema will update automatically to match java entity classes.
+    show-sql: true #print sql queries in console
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQL8Dialect #generate only queries that are compatible with MySQL
 
-jwt:
-  secret: stationery-secret-key-for-jwt-signing-must-be-long-enough
-  expiration: 86400000
+jwt: #used for authentication
+  secret: stationery-secret-key-for-jwt-signing-must-be-long-enough #this secret key is used to make signature
+  expiration: 86400000 #in milliseconds, it is for 24 hours
 
-eureka:
-  client:
-    service-url:
+eureka: #allows auth-service to register itself with eureka server
+  client: #eureka acts as a client
+    service-url: #location of eureka server:
       defaultZone: http://localhost:8761/eureka/
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: true #while registering, ip-address is preferred, mot localhost
 
 management:
   endpoints:
     web:
       exposure:
-        include: health, info
+        include: health, info #tells if application is runnig fine or not
