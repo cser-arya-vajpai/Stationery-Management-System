@@ -1,4 +1,4 @@
-pipeline {
+pipeline { //Outer 
     agent any
 
     environment {

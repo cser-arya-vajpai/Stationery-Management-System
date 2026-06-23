@@ -4,7 +4,10 @@ import com.stationery.request.client.InventoryServiceClient;
 import com.stationery.request.dto.RequestResponseDto;
 import com.stationery.request.dto.RequestStatusUpdateDto;
 import com.stationery.request.dto.RequestSubmitDto;
+import com.stationery.request.dto.RequestItemDto;
+import com.stationery.request.model.RequestItem;
 import com.stationery.request.exception.RequestNotFoundException;
+import java.util.ArrayList;
 import com.stationery.request.model.RequestStatus;
 import com.stationery.request.model.StationeryRequest;
 import com.stationery.request.repository.StationeryRequestRepository;
@@ -40,21 +43,32 @@ class RequestServiceTest {
 
     @BeforeEach
     void setUp() {
+        RequestItemDto itemDto = RequestItemDto.builder()
+                .itemId(1L)
+                .itemName("A4 Paper")
+                .requestedQuantity(5)
+                .build();
+
         submitDto = new RequestSubmitDto();
-        submitDto.setItemId(1L);
-        submitDto.setItemName("A4 Paper");
-        submitDto.setRequestedQuantity(5);
+        submitDto.setItems(Collections.singletonList(itemDto));
         submitDto.setRemarks("Needed for assignment");
 
         stationeryRequest = StationeryRequest.builder()
                 .id(1L)
                 .requestId("REQ-12345")
                 .studentEmail("john@test.com")
+                .status(RequestStatus.PENDING)
+                .build();
+
+        RequestItem requestItem = RequestItem.builder()
+                .id(1L)
+                .request(stationeryRequest)
                 .itemId(1L)
                 .itemName("A4 Paper")
                 .requestedQuantity(5)
-                .status(RequestStatus.PENDING)
                 .build();
+
+        stationeryRequest.setItems(new ArrayList<>(Collections.singletonList(requestItem)));
     }
 
     @Test

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 //This DTO is what the microservice returns back to the frontend after any operation. 
 //It includes all the request details, timestamps, and database IDs.
@@ -19,9 +20,7 @@ public class RequestResponseDto {
     private Long id;
     private String requestId;
     private String studentEmail;
-    private Long itemId;
-    private String itemName;
-    private Integer requestedQuantity;
+    private List<RequestItemDto> items;
     private RequestStatus status;
     private String rejectionReason;
     private String remarks;

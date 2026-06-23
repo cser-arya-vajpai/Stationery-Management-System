@@ -43,7 +43,8 @@ const AdminRequests = () => {
   const handleApprove = async (request) => {
     try {
       await updateRequestStatus(request.id, { status: 'APPROVED' });
-      addAuditLog(user.email, user.role, 'APPROVE_REQUEST', `Approved request ID: ${request.requestId} for ${request.itemName} (Qty: ${request.requestedQuantity})`);
+      const itemsDetail = request.items?.map(i => `${i.requestedQuantity} ${i.itemName}`).join(', ') || '';
+      addAuditLog(user.email, user.role, 'APPROVE_REQUEST', `Approved request ID: ${request.requestId} for ${itemsDetail}`);
       fetchRequests();
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to approve request.');
@@ -64,7 +65,8 @@ const AdminRequests = () => {
         status: 'REJECTED',
         rejectionReason,
       });
-      addAuditLog(user.email, user.role, 'REJECT_REQUEST', `Rejected request ID: ${actionTarget.requestId} for ${actionTarget.itemName}. Reason: ${rejectionReason}`);
+      const itemsDetail = actionTarget.items?.map(i => `${i.requestedQuantity} ${i.itemName}`).join(', ') || '';
+      addAuditLog(user.email, user.role, 'REJECT_REQUEST', `Rejected request ID: ${actionTarget.requestId} for ${itemsDetail}. Reason: ${rejectionReason}`);
       closeRejectModal();
       fetchRequests();
     } catch (err) {
@@ -75,7 +77,8 @@ const AdminRequests = () => {
   const handleFulfill = async (request) => {
     try {
       await updateRequestStatus(request.id, { status: 'FULFILLED' });
-      addAuditLog(user.email, user.role, 'FULFILL_REQUEST', `Marked request ID: ${request.requestId} for ${request.itemName} as fulfilled`);
+      const itemsDetail = request.items?.map(i => `${i.requestedQuantity} ${i.itemName}`).join(', ') || '';
+      addAuditLog(user.email, user.role, 'FULFILL_REQUEST', `Marked request ID: ${request.requestId} for ${itemsDetail} as fulfilled`);
       fetchRequests();
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to mark as fulfilled.');
@@ -92,10 +95,14 @@ const AdminRequests = () => {
         return a.status.localeCompare(b.status);
       }
       if (sortBy === 'itemName') {
-        return a.itemName.localeCompare(b.itemName);
+        const nameA = a.items?.[0]?.itemName || '';
+        const nameB = b.items?.[0]?.itemName || '';
+        return nameA.localeCompare(nameB);
       }
       if (sortBy === 'quantity') {
-        return b.requestedQuantity - a.requestedQuantity; // Highest quantity first
+        const qtyA = a.items?.reduce((sum, item) => sum + item.requestedQuantity, 0) || 0;
+        const qtyB = b.items?.reduce((sum, item) => sum + item.requestedQuantity, 0) || 0;
+        return qtyB - qtyA; // Highest total quantity first
       }
       return 0;
     });
@@ -148,8 +155,7 @@ const AdminRequests = () => {
               <tr>
                 <th>Request ID</th>
                 <th>Student Email</th>
-                <th>Item</th>
-                <th>Quantity</th>
+                <th>Requested Items</th>
                 <th>Status</th>
                 <th>Submitted On</th>
                 <th>Actions</th>
@@ -160,8 +166,15 @@ const AdminRequests = () => {
                 <tr key={req.id}>
                   <td>{req.requestId}</td>
                   <td>{req.studentEmail}</td>
-                  <td>{req.itemName}</td>
-                  <td>{req.requestedQuantity}</td>
+                  <td>
+                    <ul style={{ margin: 0, paddingLeft: '15px', listStyleType: 'disc' }}>
+                      {req.items && req.items.map((item, idx) => (
+                        <li key={idx} style={{ fontSize: '13px', color: '#4b5563' }}>
+                          <strong>{item.itemName}</strong> (Qty: {item.requestedQuantity})
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
                   <td>
                     <span className={`badge ${statusColors[req.status]}`}>
                       {req.status}

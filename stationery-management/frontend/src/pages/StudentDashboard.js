@@ -123,8 +123,7 @@ const StudentDashboard = () => {
                     <table className="data-table" style={{ margin: 0, boxShadow: 'none', border: 'none' }}>
                       <thead>
                         <tr>
-                          <th>Item Name</th>
-                          <th>Qty</th>
+                          <th>Items Requested</th>
                           <th>Status</th>
                           <th>Requested On</th>
                         </tr>
@@ -132,8 +131,15 @@ const StudentDashboard = () => {
                       <tbody>
                         {requests.slice(0, 4).map((req) => (
                           <tr key={req.id}>
-                            <td style={{ fontWeight: '600' }}>{req.itemName}</td>
-                            <td>{req.requestedQuantity}</td>
+                            <td>
+                              <ul style={{ margin: 0, paddingLeft: '15px', listStyleType: 'disc' }}>
+                                {req.items && req.items.map((item, idx) => (
+                                  <li key={idx} style={{ fontSize: '12px', color: '#4b5563' }}>
+                                    <strong>{item.itemName}</strong> (Qty: {item.requestedQuantity})
+                                  </li>
+                                ))}
+                              </ul>
+                            </td>
                             <td>
                               <span className={`badge ${statusColors[req.status]}`} style={{ fontSize: '11px' }}>
                                 {req.status}

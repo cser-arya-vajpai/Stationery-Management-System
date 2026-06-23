@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stationery.request.dto.RequestResponseDto;
 import com.stationery.request.dto.RequestStatusUpdateDto;
 import com.stationery.request.dto.RequestSubmitDto;
+import com.stationery.request.dto.RequestItemDto;
 import com.stationery.request.model.RequestStatus;
 import com.stationery.request.service.RequestService;
 import com.stationery.request.security.JwtUtil;
@@ -49,18 +50,20 @@ class RequestControllerTest {
 
     @BeforeEach
     void setUp() {
+        RequestItemDto itemDto = RequestItemDto.builder()
+                .itemId(1L)
+                .itemName("Pens")
+                .requestedQuantity(10)
+                .build();
+
         submitDto = new RequestSubmitDto();
-        submitDto.setItemId(1L);
-        submitDto.setItemName("Pens");
-        submitDto.setRequestedQuantity(10);
+        submitDto.setItems(Collections.singletonList(itemDto));
 
         responseDto = RequestResponseDto.builder()
                 .id(1L)
                 .requestId("REQ-99")
                 .studentEmail("student@test.com")
-                .itemId(1L)
-                .itemName("Pens")
-                .requestedQuantity(10)
+                .items(Collections.singletonList(itemDto))
                 .status(RequestStatus.PENDING)
                 .build();
 

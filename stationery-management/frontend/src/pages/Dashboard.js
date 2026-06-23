@@ -116,16 +116,22 @@ const Dashboard = () => {
                     <table className="data-table" style={{ margin: 0, boxShadow: 'none', border: 'none' }}>
                       <thead>
                         <tr>
-                          <th>Item</th>
-                          <th>Qty</th>
+                          <th>Requested Items</th>
                           <th>Student</th>
                         </tr>
                       </thead>
                       <tbody>
                         {pendingRequests.slice(0, 3).map((req) => (
                           <tr key={req.id}>
-                            <td style={{ fontWeight: '600' }}>{req.itemName}</td>
-                            <td>{req.requestedQuantity}</td>
+                            <td>
+                              <ul style={{ margin: 0, paddingLeft: '15px', listStyleType: 'disc' }}>
+                                {req.items && req.items.map((item, idx) => (
+                                  <li key={idx} style={{ fontSize: '12px', color: '#4b5563' }}>
+                                    <strong>{item.itemName}</strong> (Qty: {item.requestedQuantity})
+                                  </li>
+                                ))}
+                              </ul>
+                            </td>
                             <td style={{ fontSize: '12px' }}>{req.studentEmail}</td>
                           </tr>
                         ))}

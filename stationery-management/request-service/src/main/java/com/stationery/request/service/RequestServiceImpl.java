@@ -4,14 +4,18 @@ import com.stationery.request.client.InventoryServiceClient;
 import com.stationery.request.dto.RequestResponseDto;
 import com.stationery.request.dto.RequestStatusUpdateDto;
 import com.stationery.request.dto.RequestSubmitDto;
+import com.stationery.request.dto.RequestItemDto;
 import com.stationery.request.exception.RequestNotFoundException;
 import com.stationery.request.model.RequestStatus;
 import com.stationery.request.model.StationeryRequest;
+import com.stationery.request.model.RequestItem;
 import com.stationery.request.repository.StationeryRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Service    //tells Spring boot that this is a Service bean. Spring registers it in the application context.
@@ -27,14 +31,23 @@ public class RequestServiceImpl implements RequestService {
     //Saves the entity to the DB via requestRepository.save()
     //converts the saved databases record into a clean RequestResponseDto using the helper method mapToResponse and returns it.
     @Override
+    @Transactional
     public RequestResponseDto submitRequest(RequestSubmitDto dto, String studentEmail) {
         StationeryRequest request = StationeryRequest.builder()
                 .studentEmail(studentEmail)
-                .itemId(dto.getItemId())
-                .itemName(dto.getItemName())
-                .requestedQuantity(dto.getRequestedQuantity())
                 .remarks(dto.getRemarks())
                 .build();
+
+        List<RequestItem> items = dto.getItems().stream()
+                .map(itemDto -> RequestItem.builder()
+                        .request(request)
+                        .itemId(itemDto.getItemId())
+                        .itemName(itemDto.getItemName())
+                        .requestedQuantity(itemDto.getRequestedQuantity())
+                        .build())
+                .collect(Collectors.toList());
+
+        request.setItems(items);
 
         return mapToResponse(requestRepository.save(request));
     }
@@ -89,14 +102,17 @@ public class RequestServiceImpl implements RequestService {
     //Updates the status
     //Saves the updated request back to DB and returns a response
     @Override
+    @Transactional
     public RequestResponseDto updateRequestStatus(Long id, RequestStatusUpdateDto dto) {
         StationeryRequest request = requestRepository.findById(id)
                 .orElseThrow(() -> new RequestNotFoundException(
                         "Request not found with id: " + id));
 
-        // If transitioning to APPROVED, call inventory-service to deduct stock
+        // If transitioning to APPROVED, call inventory-service to deduct stock for each item
         if (dto.getStatus() == RequestStatus.APPROVED && request.getStatus() != RequestStatus.APPROVED) {
-            inventoryServiceClient.deductStock(request.getItemId(), request.getRequestedQuantity());
+            for (RequestItem item : request.getItems()) {
+                inventoryServiceClient.deductStock(item.getItemId(), item.getRequestedQuantity());
+            }
         }
 
         request.setStatus(dto.getStatus());
@@ -119,13 +135,21 @@ public class RequestServiceImpl implements RequestService {
     //private helper method.
     //converts a db entity to a clean outgoing DTO
     private RequestResponseDto mapToResponse(StationeryRequest request) {
+        List<RequestItemDto> itemDtos = new ArrayList<>();
+        if (request.getItems() != null) {
+            itemDtos = request.getItems().stream()
+                    .map(item -> RequestItemDto.builder()
+                            .itemId(item.getItemId())
+                            .itemName(item.getItemName())
+                            .requestedQuantity(item.getRequestedQuantity())
+                            .build())
+                    .collect(Collectors.toList());
+        }
         return RequestResponseDto.builder()
                 .id(request.getId())
                 .requestId(request.getRequestId())
                 .studentEmail(request.getStudentEmail())
-                .itemId(request.getItemId())
-                .itemName(request.getItemName())
-                .requestedQuantity(request.getRequestedQuantity())
+                .items(itemDtos)
                 .status(request.getStatus())
                 .rejectionReason(request.getRejectionReason())
                 .remarks(request.getRemarks())

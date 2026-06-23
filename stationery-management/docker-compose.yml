@@ -1,18 +1,28 @@
-version: "3.8"
+version: "3.8" #defines the version of the Docker Compose file format we are using.
 
+#Now, list of services will begin, we will define all 8 containers, their configurations, networks and dependencies.
 services:
   # 1. Database Service (hosting 3 separate isolated databases)
   stationery-mysql:
-    image: mysql:8.0
-    container_name: stationery-mysql
+    image: mysql:8.0 #Download the official, pre-built MySQL version 8.0 image directly from Docker Hub
+    container_name: stationery-mysql #names the running container, can easily be spotted on Docker desktop
+
+    #Maps the HostPort:ContainerPort. MySQL DB inside container runs on standard port 3306,
+    #we map it to 3307(on host computer). Incase laptop has a local SQL db, mapping prevents port collision.
     ports:
       - "3307:3306"
+    #sets an environment variable inside container. This configures the master password.
     environment:
       MYSQL_ROOT_PASSWORD: ashuvishu
+    #Volume Mapping. extra spaces, we use in docker.
     volumes:
       - ./mysql:/docker-entrypoint-initdb.d
+
+    #connects this container to a virtual private network bridge called stationery-management to allow ms to communicate with db container
     networks:
       - stationery-network
+
+      #defines health checks. Docker runs a command yysqladminping every 10 seconds, after db replies its ready docker marks it "healthy"
     healthcheck:
       test:
         [
@@ -31,7 +41,7 @@ services:
 
   # 2. Config Server
   config-server:
-    build: ./config-server
+    build: ./config-server #location of docker file
     container_name: config-server
     ports:
       - "8888:8888"
@@ -147,4 +157,4 @@ services:
 
 networks:
   stationery-network:
-    driver: bridge
+    driver: bridge #acts as a bridge between two ms

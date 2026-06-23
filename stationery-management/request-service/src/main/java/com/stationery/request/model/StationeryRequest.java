@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "stationery_requests")
@@ -26,14 +29,10 @@ public class StationeryRequest {
     @Column(nullable = false)
     private String studentEmail;
 
-    @Column(nullable = false)
-    private Long itemId;
-
-    @Column(nullable = false)
-    private String itemName;
-
-    @Column(nullable = false)
-    private Integer requestedQuantity;
+    @OneToMany(mappedBy = "request", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @Builder.Default
+    @JsonManagedReference
+    private List<RequestItem> items = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

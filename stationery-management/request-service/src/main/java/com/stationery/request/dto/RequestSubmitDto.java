@@ -1,23 +1,16 @@
 package com.stationery.request.dto;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+import java.util.List;
 
-//whenever a student submits a new statinery request, this DTO is used.
+//whenever a student submits a new stationery request, this DTO is used.
 @Data
 public class RequestSubmitDto {
 
-    @NotNull(message = "Item ID is required")
-    private Long itemId;
-
-    @NotBlank(message = "Item name is required")
-    private String itemName;
-
-    @NotNull(message = "Quantity is required")
-    @Min(value = 1, message = "Quantity must be at least 1")
-    private Integer requestedQuantity;
+    @NotEmpty(message = "Request must contain at least one item")
+    private List<@Valid RequestItemDto> items;
 
     private String remarks;
 }

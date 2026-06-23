@@ -43,7 +43,9 @@ const Requests = () => {
         return a.status.localeCompare(b.status);
       }
       if (sortBy === 'itemName') {
-        return a.itemName.localeCompare(b.itemName);
+        const nameA = a.items?.[0]?.itemName || '';
+        const nameB = b.items?.[0]?.itemName || '';
+        return nameA.localeCompare(nameB);
       }
       return 0;
     });
@@ -94,8 +96,7 @@ const Requests = () => {
             <thead>
               <tr>
                 <th>Request ID</th>
-                <th>Item</th>
-                <th>Quantity</th>
+                <th>Requested Items</th>
                 <th>Status</th>
                 <th>Remarks</th>
                 <th>Rejection Reason</th>
@@ -106,8 +107,15 @@ const Requests = () => {
               {displayedRequests.map((req) => (
                 <tr key={req.id}>
                   <td>{req.requestId}</td>
-                  <td>{req.itemName}</td>
-                  <td>{req.requestedQuantity}</td>
+                  <td>
+                    <ul style={{ margin: 0, paddingLeft: '15px', listStyleType: 'disc' }}>
+                      {req.items && req.items.map((item, idx) => (
+                        <li key={idx} style={{ fontSize: '13px', color: '#4b5563' }}>
+                          <strong>{item.itemName}</strong> (Qty: {item.requestedQuantity})
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
                   <td>
                     <span className={`badge ${statusColors[req.status]}`}>
                       {req.status}
