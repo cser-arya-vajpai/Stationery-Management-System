@@ -399,9 +399,9 @@ body {
   font-weight: 800;
   letter-spacing: -0.75px;
   margin-bottom: 24px;
-  background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #880e4f !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
 }
 
 .page-container h2 {
@@ -594,18 +594,18 @@ body {
 }
 
 .data-table th {
-  background-color: rgba(15, 23, 42, 0.8);
-  color: var(--text-primary);
+  background-color: #ffd1dc !important;
+  color: #880e4f !important;
   font-weight: 700;
   text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--panel-border);
+  border-bottom: 1px solid rgba(255, 105, 180, 0.18);
 }
 
 .data-table td {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(255, 105, 180, 0.1) !important;
+  color: #4a2830 !important;
   font-weight: 500;
 }
 
@@ -969,4 +969,169 @@ input:focus, select:focus, textarea:focus {
 .modal-content h2 {
   color: #4a2830 !important;
   border-bottom: 1px solid rgba(219, 39, 119, 0.12) !important;
+}
+
+/* ===== NEW STYLES AND LAYOUT POLISH ===== */
+
+/* Side-by-side dashboard panels layout */
+.dashboard-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 24px;
+  margin-top: 30px;
+  align-items: start;
+}
+
+.dashboard-panel {
+  background: #ffffff !important;
+  border: 1px solid rgba(255, 105, 180, 0.12) !important;
+  box-shadow: 0 6px 24px rgba(255, 105, 180, 0.04) !important;
+  border-radius: 24px;
+  padding: 24px !important;
+}
+
+/* Welcome Banner padding and spacing */
+.welcome-banner {
+  padding: 30px 40px !important;
+  margin-bottom: 30px !important;
+}
+
+/* Themed outline refresh button */
+.refresh-btn {
+  background: #ffffff !important;
+  color: #db2777 !important;
+  border: 1.5px solid #db2777 !important;
+  padding: 8px 16px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease-in-out !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.refresh-btn:hover {
+  background: #db2777 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.15) !important;
+}
+
+/* Elegant pill-shaped action buttons instead of blue underlines */
+.view-all-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  background: rgba(219, 39, 119, 0.08) !important;
+  color: #db2777 !important;
+  border: 1px solid rgba(219, 39, 119, 0.12) !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.view-all-link:hover {
+  background: #db2777 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.15) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Audit Logs tab visual polish */
+.audit-tabs {
+  display: flex !important;
+  gap: 12px !important;
+  margin: 25px 0 !important;
+}
+
+.audit-tab {
+  background: #ffffff !important;
+  color: #8c606b !important;
+  border: 1px solid rgba(255, 105, 180, 0.15) !important;
+  padding: 10px 20px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.audit-tab:hover {
+  background: #ffeef2 !important;
+  color: #db2777 !important;
+}
+
+.audit-tab.active {
+  background: #db2777 !important;
+  color: #ffffff !important;
+  border-color: #db2777 !important;
+  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.2) !important;
+}
+
+.audit-log-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+}
+
+.audit-log-item {
+  background: #ffffff !important;
+  border: 1px solid rgba(255, 105, 180, 0.12) !important;
+  border-radius: 16px !important;
+  padding: 20px !important;
+  box-shadow: 0 4px 15px rgba(219, 39, 119, 0.02) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 20px !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.audit-log-item:hover {
+  transform: translateY(-2px) !important;
+  border-color: rgba(219, 39, 119, 0.25) !important;
+  box-shadow: 0 6px 20px rgba(219, 39, 119, 0.05) !important;
+}
+
+.audit-log-main {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  flex: 1 !important;
+}
+
+.audit-log-action {
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  background: rgba(219, 39, 119, 0.08) !important;
+  color: #db2777 !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  display: inline-block !important;
+  width: fit-content !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.audit-log-details {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #4a2830 !important;
+}
+
+.audit-log-meta {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 6px !important;
+  font-size: 12px !important;
+  color: #8c606b !important;
+  min-width: 200px !important;
+}
+
+.audit-log-user {
+  font-weight: 700 !important;
+  color: #db2777 !important;
 }
